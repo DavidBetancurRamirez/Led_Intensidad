@@ -32,10 +32,15 @@ string obtenerColor() {
 }
 
 int main() {
+    // Inicializando leds
     PwmOut ledR(LED1);
     PwmOut ledG(LED2);
     PwmOut ledB(LED3);
+
+    // Determinar periodo
     ledR.period(0.10);
+    ledG.period(0.10);
+    ledB.period(0.10);
 
     // Tiempo del pwm
     float pwm = 0.00;
