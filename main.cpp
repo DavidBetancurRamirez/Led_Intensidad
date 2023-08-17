@@ -16,20 +16,16 @@ UnbufferedSerial serial(USBTX, USBRX, 9600);
 
 using namespace std;
 
-string pedirHexadecimal() {
-    string color = "";
+string obtenerColor() {
+    string input = "";
 
-    while (color.length()!=6) {
+    while (input.length()!=6) {
         cout << "Ingrese el color del led (Hexadecimal): ";
-        cin >> color;
+        cin >> input;
     }
 
-    return color;
-}
-
-int obtenerColor(string s) {
     unsigned int colorValue;
-    if (sscanf(s, "%x", &colorValue) != 1) {
+    if (sscanf(input, "%x", &colorValue) != 1) {
         printf("Valor hexadecimal no válido.\n");
     }
     return colorValue;
@@ -57,8 +53,7 @@ int main() {
     /*
         // Punto 2
     // Color del led
-    string hexadecimal = pedirHexadecimal();
-    int color = obtenerColor(hexadecimal);
+    string color = obtenerColor();
 
     // Extraer los componentes R, G y B del valor hexadecimal
     unsigned char red = (color >> 16) & 0xFF;
