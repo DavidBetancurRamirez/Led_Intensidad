@@ -39,7 +39,7 @@ int main() {
 
     // Tiempo del pwm
     float pwm = 0.00;
-    // Para subir y bajar la intensidad de manera triangular
+    // Para subir o bajar la intensidad de manera triangular
     int cambio = 1;
 
     while (true) {
