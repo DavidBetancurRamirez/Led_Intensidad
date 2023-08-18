@@ -17,6 +17,11 @@ UnbufferedSerial serial(USBTX, USBRX, 9600);
 
 using namespace std;
 
+void waitForEnter() {
+    printf("Presiona Enter para continuar...");
+    while (getchar() != '\n');
+}
+
 void luzTriangular() {
     // Inicializando leds
     PwmOut ledR(LED1);
@@ -49,24 +54,26 @@ void colorLed() {
 
     // Color del led
     char inputHex[7];
-    printf("Ingresa un valor hexadecimal de 6 dígitos (RRGGBB): ");
-    scanf("%6s", inputHex);
+    while (true) {
+        printf("\n Ingresa un valor hexadecimal de 6 dígitos (RRGGBB): ");
+        scanf("%6s", inputHex);
 
-    unsigned int colorValue;
-    if (sscanf(inputHex, "%x", &colorValue) != 1) {
-        printf("Valor hexadecimal no válido.\n");
+        unsigned int colorValue;
+        if (sscanf(inputHex, "%x", &colorValue) != 1) {
+            printf("Valor hexadecimal no válido.\n");
+        }
+
+        unsigned char red, green, blue;
+        red = (1-(float)((colorValue >> 16) & 0xFF) / 255.0f);
+        green = (1-(float)((colorValue >> 8) & 0xFF) / 255.0f);
+        blue = (1-(float)(colorValue & 0xFF) / 255.0f);
+
+        ledR = red;
+        ledG = green;
+        ledB = blue;
+
+        waitForEnter();
     }
-
-    unsigned char red, green, blue;
-    red = (1-(float)((colorValue >> 16) & 0xFF) / 255.0f);
-    green = (1-(float)((colorValue >> 8) & 0xFF) / 255.0f);
-    blue = (1-(float)(colorValue & 0xFF) / 255.0f);
-
-    ledR = red;
-    ledG = green;
-    ledB = blue;
-
-    printf("Valor hexadecimal: #%02X%02X%02X\n", red, green, blue);
 }
 
 int main() {
