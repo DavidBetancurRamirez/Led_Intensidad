@@ -18,7 +18,11 @@ UnbufferedSerial serial(USBTX, USBRX, 9600);
 using namespace std;
 
 void waitForEnter() {
-    printf("Presiona Enter para continuar...");
+    /*
+        * No tuvimos manera de probarlo con la tarjeta
+        * Pero es para que al dar enter se pueda volver a cambiar el color del led
+    */
+    printf("Presiona Enter para ingresar nuevo color...");
     while (getchar() != '\n');
 }
 
