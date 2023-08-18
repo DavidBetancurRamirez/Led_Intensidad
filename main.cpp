@@ -1,73 +1,75 @@
-/* mbed Microcontroller Library
- * Copyright (c) 2019 ARM Limited
- * SPDX-License-Identifier: Apache-2.0
+/* Ejercicio de clase de arquitectura
+ * Punto 1: hacer que una luz roja se prenda y apague lento, forma triangular
+ * Punto 2: Pedir por consola el color hexadecimal y prenderlo de este color
  */
 
 #include "mbed.h"
 #include <iostream>
 #include <string>
+#include <cstdio>
 
 // Blinking rate in milliseconds
 #define BLINKING_UNITS      "ms"
-#define BLINKING_RATE      500ms
+#define BLINKING_RATE      50ms
 
 // Objeto para establecer la comunicación serial con el Pc
 UnbufferedSerial serial(USBTX, USBRX, 9600);
 
 using namespace std;
 
-string obtenerColor() {
-    string input = "";
+void luzTriangular() {
+    // Inicializando leds
+    PwmOut ledR(LED1);
+    // Determinar periodo
+    ledR.period(0.01);
 
-    while (input.length()!=6) {
-        cout << "Ingrese el color del led (Hexadecimal): ";
-        cin >> input;
-    }
+    // Tiempo del pwm
+    float pwm = 0.00;
+    // Para subir o bajar la intensidad de manera triangular
+    int multiplicacion = 1;
 
-    unsigned int colorValue;
-    if (sscanf(input, "%x", &colorValue) != 1) {
-        printf("Valor hexadecimal no válido.\n");
+    while (true) {
+        ledR.write(pwm);
+        ThisThread::sleep_for(BLINKING_RATE);
+        pwm += 0.10 * multiplicacion;
+        if (pwm >= 1.00 || pwm <= 0.00) multiplicacion *= -1;
     }
-    return colorValue;
 }
 
-int main() {
+void colorLed() {
     // Inicializando leds
     PwmOut ledR(LED1);
     PwmOut ledG(LED2);
     PwmOut ledB(LED3);
 
-    // Determinar periodo
-    ledR.period(0.10);
-    ledG.period(0.10);
-    ledB.period(0.10);
+    // Determinar periodo de los leds
+    ledR.period(0.01);
+    ledG.period(0.01);
+    ledB.period(0.01);
 
-    // Tiempo del pwm
-    float pwm = 0.00;
-    // Para subir o bajar la intensidad de manera triangular
-    int cambio = 1;
+    // Color del led
+    char inputHex[7];
+    printf("Ingresa un valor hexadecimal de 6 dígitos (RRGGBB): ");
+    scanf("%6s", inputHex);
 
-    while (true) {
-            // Punto 1
-        ledR.write(pwm);
-        ThisThread::sleep_for(BLINKING_RATE);
-        pwm += 10 * cambio;
-        if (pwm == 1.00 || pwm == 0.00) cambio *= -1;
+    unsigned int colorValue;
+    if (sscanf(inputHex, "%x", &colorValue) != 1) {
+        printf("Valor hexadecimal no válido.\n");
     }
 
-    /*
-        // Punto 2
-    // Color del led
-    string color = obtenerColor();
+    unsigned char red, green, blue;
+    red = (1-(float)((colorValue >> 16) & 0xFF) / 255.0f);
+    green = (1-(float)((colorValue >> 8) & 0xFF) / 255.0f);
+    blue = (1-(float)(colorValue & 0xFF) / 255.0f);
 
-    // Extraer los componentes R, G y B del valor hexadecimal
-    unsigned char red = (color >> 16) & 0xFF;
-    unsigned char green = (color >> 8) & 0xFF;
-    unsigned char blue = color & 0xFF;
+    ledR = red;
+    ledG = green;
+    ledB = blue;
 
-    // Configurar los valores PWM para los pines R, G y B
-    ledR.write(float(red) / 255.0);
-    ledG.write(float(green) / 255.0);
-    ledB.write(float(blue) / 255.0);
-    */
+    printf("Valor hexadecimal: #%02X%02X%02X\n", red, green, blue);
+}
+
+int main() {
+    // luzTriangular();
+    colorLed();
 }
