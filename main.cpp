@@ -1,6 +1,7 @@
-/* Ejercicio de clase de arquitectura
+/* Ejercicio de clase de arquitectura.
  * Punto 1: hacer que una luz roja se prenda y apague lento, forma triangular
  * Punto 2: Pedir por consola el color hexadecimal y prenderlo de este color
+ * Integrantes: David Betancur, Tomas Lopera
  */
 
 #include "mbed.h"
