@@ -12,11 +12,10 @@ Este es un proyecto de control de LED RGB desarrollado con la plataforma mbed. E
 
 1. Descripción
 2. Requisitos
-3. Instrucciones de Uso
 
 # Descripción
 
-Este programa desarrollado en mbed permite controlar un LED RGB de manera interactiva. Incluye dos modos principales: uno para realizar una animación de cambio de intensidad triangular en un LED rojo y otro para establecer el color del LED RGB utilizando valores hexadecimales. Creamos una función waitForEnter() que se encarga de cambiar el color del led, esta no se puedo probar porque no teníamos la tarjeta para hacer el ensayo. 
+Este programa desarrollado en mbed permite controlar un LED RGB de manera interactiva. Incluye dos modos principales: uno para realizar una animación de cambio de intensidad triangular en un LED rojo y otro para establecer el color del LED RGB utilizando valores hexadecimales. Creamos una funcion waitForEnter() que se encarga de cambiarle el color al led pero no pudimos ejecutarla y probarla debido a que no teníamos la tableta para verificar si el código funcionaba. 
 
 # Requisitos
 
